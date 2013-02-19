@@ -1,4 +1,6 @@
 require 'erb'
+require 'capistrano'
+require 'capistrano/cli'
 require 'capistrano/ext/multistage'
 
 # Helper Methods
