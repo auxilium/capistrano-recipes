@@ -1,4 +1,4 @@
-# Capistrano::Recipes
+# CapistranoRecipes
 
 A gem with some capistrano recipes we use for our projects. This gem is not published to rubygems.
 
@@ -14,7 +14,7 @@ Require all or some recipes in your `deploy.rb`
 
 ```ruby
 # require all recipes
-require 'capistrano-recipes'
+require 'capistrano-recipes/all'
 
 # or include recipes one by one
 # require 'capistrano-recipes/recipes/git'

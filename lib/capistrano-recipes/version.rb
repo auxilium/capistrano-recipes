@@ -1,5 +1,3 @@
-module Capistrano
-  module Recipes
-    VERSION = "0.1.0"
-  end
+module CapistranoRecipes
+  VERSION = "0.1.0"
 end

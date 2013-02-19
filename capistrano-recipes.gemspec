@@ -1,11 +1,9 @@
 # -*- encoding: utf-8 -*-
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'capistrano-recipes/version'
+require File.expand_path('../lib/capistrano-recipes/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.name          = "capistrano-recipes"
-  gem.version       = Capistrano::Recipes::VERSION
+  gem.version       = CapistranoRecipes::VERSION
   gem.authors       = ["Manuel van Rijn"]
   gem.email         = ["manuel@auxilium.nl"]
   gem.description   = %q{Some handy recipes we use for our projects}
@@ -18,5 +16,6 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
 
   gem.add_dependency "capistrano", ">= 2.13.5"
+
   gem.add_development_dependency "rake"
 end

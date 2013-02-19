@@ -1,4 +1,5 @@
 require 'erb'
+require 'capistrano/ext/multistage'
 
 # Helper Methods
 def template(from, to)

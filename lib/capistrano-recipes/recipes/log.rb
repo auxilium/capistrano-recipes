@@ -1,4 +1,6 @@
-Capistrano::Configuration.instance(true).load do
+require File.expand_path(File.dirname(__FILE__) + '/../helpers')
+
+Capistrano::Configuration.instance.load do
   namespace :log do
     def tail file
       trap("INT") { puts 'Interupted'; exit 0; }

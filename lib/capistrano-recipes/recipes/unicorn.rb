@@ -1,7 +1,6 @@
-require 'capistrano/ext/multistage'
-require 'capistrano-recipes/helpers'
+require File.expand_path(File.dirname(__FILE__) + '/../helpers')
 
-Capistrano::Configuration.instance(true).load do
+Capistrano::Configuration.instance.load do
   set_default(:unicorn_user)    { user }
   set_default(:unicorn_pid)     { "#{shared_path}/pids/unicorn.pid" }
   set_default(:unicorn_sock)    { "/tmp/unicorn.#{application}_#{stage}.sock" }
@@ -9,6 +8,11 @@ Capistrano::Configuration.instance(true).load do
   set_default(:unicorn_log)     { "#{shared_path}/log/unicorn.log" }
   set_default(:unicorn_workers) { 2 }
   set_default(:unicorn_timeout) { 30 }
+
+  after "deploy:setup",     "unicorn:setup"
+  after "deploy:restart",   "unicorn:upgrade"
+  after "deploy:start",     "unicorn:start"
+  after "deploy:stop",      "unicorn:stop"
 
   namespace :unicorn do
     desc "Set up Unicorn initializer and app configuration"
@@ -20,7 +24,6 @@ Capistrano::Configuration.instance(true).load do
       run "#{sudo} mv /tmp/unicorn_init /etc/init.d/unicorn_#{application}_#{stage}"
       run "#{sudo} update-rc.d -f unicorn_#{application}_#{stage} defaults"
     end
-    after "deploy:setup", "unicorn:setup"
 
     %w{start stop restart upgrade}.each do |command|
       desc "#{command} unicorn"
@@ -28,10 +31,5 @@ Capistrano::Configuration.instance(true).load do
         run "/etc/init.d/unicorn_#{application}_#{stage} #{command}"
       end
     end
-
-    %w{start stop}.each do |cmd|
-      after "deploy:#{cmd}", "unicorn:#{cmd}"
-    end
-    after "deploy:restart", "unicorn:upgrade"
   end
 end

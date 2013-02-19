@@ -1,12 +1,15 @@
-require 'capistrano/ext/multistage'
-require 'capistrano-recipes/helpers'
+require File.expand_path(File.dirname(__FILE__) + '/../helpers')
 
-Capistrano::Configuration.instance(true).load do
+Capistrano::Configuration.instance.load do
   set_default(:postgresql_create_user)  { Capistrano::CLI.ui.ask "Would you like to create a new postgres user? (Y/N)" }
   set_default(:postgresql_user)         { Capistrano::CLI.ui.ask "Enter #{stage} database username:" }
   set_default(:postgresql_password)     { Capistrano::CLI.password_prompt "Enter #{stage} database password:" }
   set_default(:postgresql_database)     { "#{application}_#{stage}" }
   set_default(:postgresql_pull_confirm) { Capistrano::CLI.ui.ask "WARNING!!!\nAre you sure you want to DROP and PULL the database from the #{stage} server???\n\n\nPlease enter the application and stage name to confirm (#{application}_#{stage})" }
+
+  after "deploy:setup",             "postgresql:create_database"
+  after "deploy:setup",             "postgresql:setup"
+  after "deploy:finalize_update",   "postgresql:create_symlink"
 
   namespace :postgresql do
     desc "Create the database for this application"
@@ -16,20 +19,17 @@ Capistrano::Configuration.instance(true).load do
       end
       run %Q{#{sudo} -u postgres psql -c "create database #{postgresql_database} owner #{postgresql_user};"}
     end
-    after "deploy:setup", "postgresql:create_database"
 
     desc "Generate the database.yml config file"
     task :setup, roles: :app do
       run "mkdir -p #{shared_path}/config"
       template "postgresql.yml.erb", "#{shared_path}/config/database.yml"
     end
-    after "deploy:setup", "postgresql:setup"
 
     desc "Symlink the database.yml file into latest release"
     task :create_symlink, roles: :app do
       run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
     end
-    after "deploy:finalize_update", "postgresql:create_symlink"
 
     desc "Pull the remote database to local"
     task :pull, roles: :db, only: { primary: true } do

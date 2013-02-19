@@ -1,8 +1,9 @@
-require 'capistrano/ext/multistage'
-require 'capistrano-recipes/helpers'
+require File.expand_path(File.dirname(__FILE__) + '/../helpers')
 
-Capistrano::Configuration.instance(true).load do
+Capistrano::Configuration.instance.load do
   set_default(:include_www_alias)    { true }
+
+  after "deploy:setup", "nginx:setup"
 
   namespace :nginx do
     desc "Setup nginx config for the application"
@@ -11,7 +12,6 @@ Capistrano::Configuration.instance(true).load do
       run "#{sudo} mv /tmp/nginx_conf /etc/nginx/conf.d/#{application}_#{stage}.conf"
       restart
     end
-    after "deploy:setup", "nginx:setup"
 
     %w{start stop restart}.each do |command|
       desc "#{command} nginx"

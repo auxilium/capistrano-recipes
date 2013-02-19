@@ -1,12 +1,12 @@
-require 'capistrano-recipes/helpers'
+require File.expand_path(File.dirname(__FILE__) + '/../helpers')
 
-Capistrano::Configuration.instance(true).load do
+Capistrano::Configuration.instance.load do
   set_default(:maintenance_path) { "#{shared_path}/system/maintenance" }
 
-  namespace :maintenance do
-    before "maintenance:on", "maintenance:check_maintenance_present"
-    after "deploy:update_code", "maintenance:update_maintenance_page"
+  before "maintenance:on",      "maintenance:check_maintenance_present"
+  after "deploy:update_code",   "maintenance:update_maintenance_page"
 
+  namespace :maintenance do
     task :on, :roles => :web do
       on_rollback { run "mv #{maintenance_path}/index.html #{maintenance_path}/index.disabled.html" }
       run "mv #{maintenance_path}/index.disabled.html #{maintenance_path}/index.html"
