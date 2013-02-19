@@ -1,0 +1,12 @@
+base: &base
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  host: localhost
+  port: 5432
+  username: <%= postgresql_user %>
+  password: <%= postgresql_password %>
+
+<%= rails_env %>:
+  database: <%= postgresql_database %>
+  <<: *base
