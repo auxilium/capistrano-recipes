@@ -1,4 +1,4 @@
-Capistrano::Configuration.instance.load do
+Capistrano::Configuration.instance(true).load do
   namespace :git do
     desc "Make sure local git is in sync with remote."
     task :check_revision, roles: :web do

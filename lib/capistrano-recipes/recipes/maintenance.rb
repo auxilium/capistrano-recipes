@@ -1,6 +1,6 @@
 require 'capistrano-recipes/helpers'
 
-Capistrano::Configuration.instance.load do
+Capistrano::Configuration.instance(true).load do
   set_default(:maintenance_path) { "#{shared_path}/system/maintenance" }
 
   namespace :maintenance do

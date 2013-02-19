@@ -1,7 +1,7 @@
 require 'capistrano/ext/multistage'
 require 'capistrano-recipes/helpers'
 
-Capistrano::Configuration.instance.load do
+Capistrano::Configuration.instance(true).load do
   set_default(:include_www_alias)    { true }
 
   namespace :nginx do

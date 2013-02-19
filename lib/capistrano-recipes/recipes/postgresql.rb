@@ -1,7 +1,7 @@
 require 'capistrano/ext/multistage'
 require 'capistrano-recipes/helpers'
 
-Capistrano::Configuration.instance.load do
+Capistrano::Configuration.instance(true).load do
   set_default(:postgresql_create_user)  { Capistrano::CLI.ui.ask "Would you like to create a new postgres user? (Y/N)" }
   set_default(:postgresql_user)         { Capistrano::CLI.ui.ask "Enter #{stage} database username:" }
   set_default(:postgresql_password)     { Capistrano::CLI.password_prompt "Enter #{stage} database password:" }

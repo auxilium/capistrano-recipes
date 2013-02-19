@@ -1,6 +1,6 @@
 require 'capistrano-recipes/helpers'
 
-Capistrano::Configuration.instance.load do
+Capistrano::Configuration.instance(true).load do
   set_default(:upload_path) { "#{shared_path}/uploads" }
 
   namespace :uploads do

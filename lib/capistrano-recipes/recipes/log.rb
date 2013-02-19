@@ -1,4 +1,4 @@
-Capistrano::Configuration.instance.load do
+Capistrano::Configuration.instance(true).load do
   namespace :log do
     def tail file
       trap("INT") { puts 'Interupted'; exit 0; }

@@ -1,7 +1,7 @@
 require 'capistrano/ext/multistage'
 require 'capistrano-recipes/helpers'
 
-Capistrano::Configuration.instance.load do
+Capistrano::Configuration.instance(true).load do
   set_default(:unicorn_user)    { user }
   set_default(:unicorn_pid)     { "#{shared_path}/pids/unicorn.pid" }
   set_default(:unicorn_sock)    { "/tmp/unicorn.#{application}_#{stage}.sock" }
