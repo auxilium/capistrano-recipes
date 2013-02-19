@@ -33,7 +33,7 @@ Capistrano::Configuration.instance.load do
 
     desc "Pull the remote database to local"
     task :pull, roles: :db, only: { primary: true } do
-      raise CommandError.new("WRONG application name") unless postgresql_pull_confirm.strip == "#{application}_#{stage}"
+      raise Capistrano::CommandError.new("WRONG application name") unless postgresql_pull_confirm.strip == "#{application}_#{stage}"
 
       prod_config = capture "cat #{shared_path}/config/database.yml"
 

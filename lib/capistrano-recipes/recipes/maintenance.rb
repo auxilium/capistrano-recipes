@@ -33,9 +33,10 @@ Capistrano::Configuration.instance.load do
     end
 
     task :check_maintenance_present, :roles => :web do
-      maintenance_file = File.expand_path("../../../public/maintenance/index.html", __FILE__)
+      maintenance_file = File.expand_path("../public/maintenance/index.html", ENV['BUNDLE_GEMFILE'])
+      puts maintenance_file
       unless File.exist?(maintenance_file)
-        error = CommandError.new("Can't find /public/maintenance/index.html. Please create it first")
+        error = Capistrano::CommandError.new("Can't find /public/maintenance/index.html. Please create it first")
         raise error
       end
     end

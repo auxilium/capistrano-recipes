@@ -1,8 +1,7 @@
 require 'erb'
 require 'yaml'
+
 require 'capistrano'
-require 'capistrano/cli'
-require 'capistrano/command'
 require 'capistrano/ext/multistage'
 
 # Helper Methods
