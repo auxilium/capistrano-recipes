@@ -1,7 +1,7 @@
 require 'bundler/capistrano'
 
 # Load all recipes
-require 'capistrano-recipes'
+require 'capistrano-recipes/all'
 
 set :application,               "your-application-name"
 set :include_www_alias,         false
