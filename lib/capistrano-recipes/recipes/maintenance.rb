@@ -19,6 +19,7 @@ Capistrano::Configuration.instance.load do
     desc "Copies your maintenance from public/maintenance to shared/system/maintenance."
     task :update_maintenance_page, :roles => :web do
       new_maintenance_path = "#{release_path}/public/maintenance"
+      run "mkdir -p /tmp/#{application}_maintenance"
       run "cp -r #{new_maintenance_path} /tmp/#{application}_maintenance"
 
       # check if first time we deploy, if so we disable the maintenance page
