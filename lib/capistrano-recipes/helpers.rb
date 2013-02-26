@@ -6,7 +6,7 @@ require 'capistrano/ext/multistage'
 
 # Helper Methods
 def template(from, to)
-  erb = File.read(File.expand_path("../templates/#{from}", __FILE__))
+  erb = File.read(File.expand_path("../recipes/templates/#{from}", __FILE__))
   put ERB.new(erb, nil, '-').result(binding), to
 end
 
