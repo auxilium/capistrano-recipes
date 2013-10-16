@@ -46,8 +46,8 @@ Capistrano::Configuration.instance.load do
       get dump, dump
       run "rm #{dump}"
 
-      system %{dropdb #{dev["database"]}}
-      system %{createdb #{dev["database"]} -O #{dev["username"]}}
+      system %{dropdb -U #{dev["username"]} #{dev["database"]}}
+      system %{createdb -U #{dev["username"]} #{dev["database"]} -O #{dev["username"]}}
       system %{pg_restore --no-owner --no-acl --schema=public --username=#{dev["username"]} --dbname=#{dev["database"]} #{dump}}
       system "rm #{dump}"
     end
