@@ -42,6 +42,7 @@ Capistrano::Configuration.instance.load do
 	  puts "prod_config = #{prod_config}"
       
 	  prod = YAML::load(prod_config)[stage]
+	  puts "prod = #{prod}"
       dev  = YAML::load_file("config/database.yml")["development"]
 
       dump = "/tmp/#{Time.now.to_i}-#{application}_#{stage}.psql"
