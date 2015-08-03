@@ -35,14 +35,12 @@ Capistrano::Configuration.instance.load do
     task :pull, roles: :db, only: { primary: true } do
       raise Capistrano::CommandError.new("WRONG application name") unless postgresql_pull_confirm.strip == "#{application}_#{stage}"
 
+	  puts "if it doesn't work anymore, try reverting this https://github.com/auxilium/capistrano-recipes/blob/master/lib/capistrano-recipes/recipes/postgresql.rb to 81d02d0907b165236268014a38944d10b35acade. Good luck with that."
+	  
       prod_config = capture "cat #{shared_path}/config/database.yml"
 	  
-	  puts "sharedpath = #{shared_path}"
-	  puts "stage = #{stage}"
-	  puts "prod_config = #{prod_config}"
-      
 	  prod = YAML::load(prod_config)["#{stage}"]
-	  puts "prod = #{prod}"
+
       dev  = YAML::load_file("config/database.yml")["development"]
 
       dump = "/tmp/#{Time.now.to_i}-#{application}_#{stage}.psql"
