@@ -39,6 +39,7 @@ Capistrano::Configuration.instance.load do
 	  
 	  puts "sharedpath = #{shared_path}"
 	  puts "stage = #{stage}"
+	  puts "prod_config = #{prod_config}"
       
 	  prod = YAML::load(prod_config)[stage]
       dev  = YAML::load_file("config/database.yml")["development"]
