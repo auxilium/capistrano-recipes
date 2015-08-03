@@ -37,8 +37,8 @@ Capistrano::Configuration.instance.load do
 
       prod_config = capture "cat #{shared_path}/config/database.yml"
 	  
-	  `echo "sharedpath = #{shared_path}"`
-	  `echo "stage = #{stage}"`
+	  puts "sharedpath = #{shared_path}"
+	  puts "stage = #{stage}"
       
 	  prod = YAML::load(prod_config)[stage]
       dev  = YAML::load_file("config/database.yml")["development"]
